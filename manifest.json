@@ -1,0 +1,12 @@
+{
+  "name": "Windows 95",
+  "description": "Spotify com cara de Windows 95: janelas cinza em relevo, barras de título azuis, botões clássicos e área de trabalho verde-azulada.",
+  "preview": "preview.png",
+  "readme": "README.md",
+  "usercss": "user.css",
+  "schemes": "color.ini",
+  "authors": [
+    { "name": "Richard Mathews", "url": "https://github.com/RichardMathews" }
+  ],
+  "tags": ["retro", "windows", "windows95", "light"]
+}

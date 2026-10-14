@@ -1,0 +1,926 @@
+/* ===== Windows 95 para Spicetify ===== */
+:root {
+  --w95-face: #c0c0c0;
+  --w95-light: #dfdfdf;
+  --w95-hilite: #ffffff;
+  --w95-shadow: #808080;
+  --w95-dark: #000000;
+  --w95-navy: #000080;
+  --w95-blue: #1084d0;
+  --w95-teal: #008080;
+  --w95-raised: inset -1px -1px var(--w95-dark), inset 1px 1px var(--w95-hilite),
+                inset -2px -2px var(--w95-shadow), inset 2px 2px var(--w95-light);
+  --w95-sunken: inset -1px -1px var(--w95-hilite), inset 1px 1px var(--w95-shadow),
+                inset -2px -2px var(--w95-light), inset 2px 2px var(--w95-dark);
+  --w95-font: "MS Sans Serif", "Microsoft Sans Serif", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Fonte e cantos retos em tudo */
+*, *::before, *::after {
+  font-family: var(--w95-font) !important;
+  border-radius: 0 !important;
+  -webkit-font-smoothing: none !important;
+  letter-spacing: 0 !important;
+}
+
+/* "Área de trabalho" verde-azulada atrás das janelas */
+body, .Root, .Root__top-container {
+  background: var(--w95-teal) !important;
+}
+.Root__top-container { gap: 6px !important; padding: 6px !important; }
+
+/* Cada painel vira uma janela do Windows 95 */
+.Root__nav-bar,
+.Root__main-view,
+.Root__right-sidebar,
+.Root__now-playing-bar {
+  background: var(--w95-face) !important;
+  box-shadow: var(--w95-raised) !important;
+  padding: 3px !important;
+}
+
+/* Barra de título azul (degradê) no topo de cada janela */
+.Root__nav-bar::before,
+.Root__main-view::before,
+.Root__right-sidebar::before {
+  content: "";
+  display: block;
+  height: 18px;
+  min-height: 18px;
+  margin-bottom: 3px;
+  background: linear-gradient(90deg, var(--w95-navy), var(--w95-blue));
+}
+.Root__nav-bar::before   { content: "  Biblioteca"; }
+.Root__main-view::before { content: "  Spotify 95"; }
+.Root__right-sidebar::before { content: "  Tocando agora"; }
+.Root__nav-bar::before,
+.Root__main-view::before,
+.Root__right-sidebar::before {
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
+  white-space: pre;
+}
+.Root__main-view { display: flex; flex-direction: column; }
+
+/* Remove os degradês coloridos do Spotify */
+.main-entityHeader-backgroundColor,
+.main-entityHeader-overlay,
+.main-actionBarBackground-background,
+.main-home-homeHeader,
+.before-scroll-node,
+[data-testid="background-image"] {
+  background: var(--w95-face) !important;
+  background-image: none !important;
+  opacity: 1 !important;
+}
+
+/* Botões em relevo (estilo Win95) */
+button:not([role="slider"]),
+a[data-encore-id^="button"],
+.main-playButton-PlayButton,
+[data-testid="play-button"] {
+  background-color: var(--w95-face) !important;
+  color: #000 !important;
+  box-shadow: var(--w95-raised) !important;
+  border: none !important;
+  outline: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  min-height: 23px !important;
+  min-width: 23px !important;
+  height: auto;
+  padding: 3px 12px !important;
+  font-size: 12px !important;
+  font-weight: normal !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  transform: none !important;
+  transition: none !important;
+}
+button:not([role="slider"]):hover { transform: none !important; }
+button:not([role="slider"]):active,
+a[data-encore-id^="button"]:active {
+  box-shadow: var(--w95-sunken) !important;
+  padding: 4px 11px 2px 13px !important; /* texto "afunda" 1px */
+}
+button:focus-visible { outline: 1px dotted #000 !important; outline-offset: -5px !important; }
+
+/* Miolo dos botões do Spotify: tira o fundo verde/pílula e o tamanho gigante */
+[class*="ButtonInner"],
+[data-encore-id^="button"] > span {
+  background: transparent !important;
+  color: #000 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  min-block-size: 0 !important;
+  min-inline-size: 0 !important;
+  block-size: auto !important;
+  inline-size: auto !important;
+  font-size: 12px !important;
+  font-weight: normal !important;
+  transform: none !important;
+}
+
+/* Botões só com ícone: quadradinhos */
+button[aria-label]:not(:has(span:not(:empty))):not([role="slider"]) {
+  padding: 3px !important;
+  width: 23px !important;
+  height: 22px !important;
+}
+button svg { fill: #000 !important; color: #000 !important; width: 14px !important; height: 14px !important; }
+
+/* Controles do player: |◀ ▶ ▶| lado a lado, como o CD Player */
+.player-controls__buttons { gap: 2px !important; }
+[data-testid^="control-button"] {
+  width: 28px !important;
+  height: 24px !important;
+  padding: 0 !important;
+}
+[data-testid="control-button-playpause"] { width: 32px !important; }
+[data-testid^="control-button"] svg { width: 12px !important; height: 12px !important; }
+
+/* Botão grande de play das páginas: retângulo em relevo */
+[data-testid="play-button"],
+.main-playButton-PlayButton {
+  width: 40px !important;
+  height: 32px !important;
+  padding: 0 !important;
+}
+[data-testid="play-button"] svg { width: 16px !important; height: 16px !important; }
+
+/* Botões de abas/filtros (Playlists, Artistas...) */
+[role="tab"], button[role="checkbox"], .search-searchCategory-categoryGrid button {
+  padding: 3px 10px !important;
+}
+[aria-selected="true"][role="tab"], button[aria-checked="true"] {
+  box-shadow: var(--w95-sunken) !important;
+  background: var(--w95-light) !important;
+}
+[aria-selected="true"][role="tab"] *, button[aria-checked="true"] * { color: #000 !important; fill: #000 !important; }
+
+/* Campos de texto / busca afundados e brancos */
+input, textarea, [role="search"] input, form input {
+  background: #fff !important;
+  color: #000 !important;
+  box-shadow: var(--w95-sunken) !important;
+  border: none !important;
+}
+
+/* Cards com borda em relevo */
+.main-card-card,
+[data-encore-id="card"] {
+  background: var(--w95-face) !important;
+  box-shadow: var(--w95-raised) !important;
+}
+.main-card-card:hover,
+[data-encore-id="card"]:hover {
+  background: var(--w95-light) !important;
+}
+
+/* Linhas de faixas: seleção azul-marinho com texto branco */
+.main-trackList-trackListRow:hover,
+.main-trackList-trackListRow:focus-within,
+.main-trackList-selected,
+[aria-selected="true"] {
+  background: var(--w95-navy) !important;
+}
+.main-trackList-trackListRow:hover *,
+.main-trackList-trackListRow:focus-within *,
+.main-trackList-selected *,
+[aria-selected="true"] * {
+  color: #fff !important;
+  fill: #fff !important;
+}
+
+/* Barras de rolagem clássicas */
+::-webkit-scrollbar { width: 16px !important; height: 16px !important; background: #dfdfdf; }
+::-webkit-scrollbar-track {
+  background-image: repeating-conic-gradient(#c0c0c0 0 25%, #fff 0 50%) !important;
+  background-size: 2px 2px !important;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--w95-face) !important;
+  box-shadow: var(--w95-raised) !important;
+}
+
+/* Capas de álbum sem cantos arredondados nem sombras modernas */
+img { border-radius: 0 !important; }
+.main-image-image, .cover-art { box-shadow: var(--w95-sunken) !important; }
+
+/* Links e textos */
+a, a:hover { color: #000 !important; }
+.main-type-mesto, .encore-text-body-small { color: #404040; }
+
+/* Tooltips amarelinhos */
+.main-contextMenu-menu, [role="menu"] {
+  background: var(--w95-face) !important;
+  box-shadow: var(--w95-raised), 2px 2px 0 #000 !important;
+}
+[role="menuitem"]:hover,
+[role="menuitem"]:focus { background: var(--w95-navy) !important; }
+[role="menuitem"]:hover *,
+[role="menuitem"]:focus * { color: #fff !important; }
+[role="tooltip"], .main-tooltip-tooltip {
+  background: #ffffe1 !important;
+  color: #000 !important;
+  border: 1px solid #000 !important;
+}
+
+/* ===== Sliders estilo Win95: trilho afundado fino + "pegador" retangular ===== */
+[data-testid="playback-progressbar"],
+.playback-progressbar,
+.volume-bar__slider-container,
+[data-testid="volume-bar"] .progress-bar {
+  height: 24px !important;
+  min-height: 24px !important;
+}
+.progress-bar {
+  --bg-color: transparent !important;
+  --fg-color: transparent !important;
+  --is-active-fg-color: transparent !important;
+  --progress-bar-height: 4px !important;
+  --progress-bar-radius: 0 !important;
+  overflow: visible !important;
+  position: relative !important;
+}
+.x-progressBar-progressBarBg {
+  height: 4px !important;
+  background: transparent !important;
+  /* linha afundada: sombra escura em cima, clara embaixo */
+  box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff,
+              inset 2px 2px #000000, inset -2px -2px #dfdfdf !important;
+  overflow: visible !important;
+}
+.x-progressBar-sliderArea,
+.x-progressBar-fillColor,
+.x-progressBar-progressFillColor { background: transparent !important; background-image: none !important; }
+.x-progressBar-sliderArea { overflow: visible !important; }
+
+/* Pegador sempre visível, como o slider do Windows 95 */
+.progress-bar__slider,
+[data-testid="progress-bar-handle"] {
+  display: block !important;
+  width: 11px !important;
+  height: 21px !important;
+  margin-left: -5px !important;
+  background: var(--w95-face) !important;
+  border: none !important;
+  box-shadow: var(--w95-raised) !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+/* Popup de volume (quando a janela é estreita) com cara de janelinha */
+.volume-bar__slider-container {
+  background: var(--w95-face) !important;
+  box-shadow: var(--w95-raised) !important;
+  padding: 2px 10px !important;
+}
+
+/* ===== Botões do canto direito (letra, fila, dispositivos, mute, mini player, tela cheia) ===== */
+.main-nowPlayingBar-right { gap: 2px !important; }
+.main-nowPlayingBar-extraControls { gap: 3px !important; }
+.main-nowPlayingBar-right button:not([role="slider"]),
+.main-nowPlayingBar-extraControls button:not([role="slider"]),
+[data-testid="volume-bar-toggle-mute-button"] {
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 28px !important;
+  padding: 0 !important;
+}
+.main-nowPlayingBar-right button svg,
+.main-nowPlayingBar-extraControls button svg,
+[data-testid="volume-bar-toggle-mute-button"] svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+/* Botão ativo (ex.: letra/fila abertos) fica "afundado" */
+.main-nowPlayingBar-right button[aria-pressed="true"],
+.main-nowPlayingBar-right button[data-active="true"] {
+  box-shadow: var(--w95-sunken) !important;
+  background-image: repeating-conic-gradient(#c0c0c0 0 25%, #fff 0 50%) !important;
+  background-size: 2px 2px !important;
+}
+/* Some o pontinho verde de "ativo" do Spotify */
+.main-nowPlayingBar-right button::after { display: none !important; }
+
+/* ===== Barra de busca: ícones alinhados ===== */
+.main-globalNav-searchInputContainer {
+  position: relative !important;
+  height: 30px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.main-globalNav-searchInputContainer input {
+  height: 30px !important;
+  width: 490px !important;
+  line-height: 30px !important;
+  padding: 0 96px 0 38px !important;
+  font-size: 12px !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: var(--w95-sunken) !important;
+}
+.main-globalNav-searchInputContainer input:focus { box-shadow: var(--w95-sunken) !important; }
+/* ícone da lupa (esquerda) e botão "navegar" (direita): centralizados na altura */
+.main-globalNav-searchInputContainer > :first-child,
+.main-globalNav-searchInputContainer > :last-child {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  transform: none !important;
+  margin: 0 !important;
+}
+.main-globalNav-searchInputContainer > :first-child { left: 2px !important; right: auto !important; }
+.main-globalNav-searchInputContainer > :last-child { right: 2px !important; left: auto !important; }
+.main-globalNav-searchInputContainer button {
+  background: transparent !important;
+  box-shadow: none !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  width: auto !important;
+  height: 26px !important;
+  padding: 0 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.main-globalNav-searchInputContainer svg { width: 16px !important; height: 16px !important; display: block !important; }
+.main-globalNav-browseButtonWrapper {
+  border-inline-start: 1px solid #808080 !important;
+  box-shadow: inset 1px 0 #fff !important;
+  padding-inline: 2px !important;
+  height: 22px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.main-globalNav-searchInputKBDWrapper { background: transparent !important; }
+.main-globalNav-searchInputTextWrapper { padding-inline: 38px 96px !important; }
+
+/* ===== Chips de filtro (Tudo / Música / Podcasts...) como botões Win95 ===== */
+[data-encore-id="chip"] {
+  background: var(--w95-face) !important;
+  background-color: var(--w105-face) !important;
+  color: #000 !important;
+  box-shadow: var(--w95-raised) !important;
+  border: none !important;
+  min-block-size: 23px !important;
+  height: 23px !important;
+  padding: 0 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  font-size: 12px !important;
+  font-weight: normal !important;
+  transform: none !important;
+}
+[data-encore-id="chip"] * { color: #000 !important; fill: #000 !important; }
+[data-encore-id="chip"] [class*="chip__label"] {
+  padding: 0 !important;
+  min-inline-size: 0 !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+}
+[data-encore-id="chip"] [class*="chip__icon"] svg { width: 12px !important; height: 12px !important; margin: 0 !important; }
+/* Selecionado = botão afundado */
+[data-encore-id="chip"][aria-checked="true"],
+[data-encore-id="chip"][aria-pressed="true"],
+[data-encore-id="chip"][aria-selected="true"],
+[aria-checked="true"] > [data-encore-id="chip"] {
+  box-shadow: var(--w95-sunken) !important;
+  background-image: repeating-conic-gradient(#c0c0c0 0 25%, #fff 0 50%) !important;
+  background-size: 2px 2px !important;
+}
+[class*="chip-group"]::before,
+[class*="chip-group"]::after { display: none !important; }
+[class*="chip-group"] { gap: 6px !important; }
+
+/* ===== "Tocando agora": mesmo padrão da "Biblioteca" ===== */
+.Root__right-sidebar {
+  flex-direction: column !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+}
+.Root__right-sidebar > :not(:first-child),
+.Root__right-sidebar > * {
+  flex: 1 1 auto;
+  min-height: 0 !important;
+  width: auto !important;
+  max-width: 100% !important;
+  border-radius: 0 !important;
+  background: var(--w95-face) !important;
+}
+.Root__right-sidebar::before { flex: 0 0 18px !important; width: auto !important; }
+.Root__right-sidebar aside,
+.Root__right-sidebar section,
+.Root__right-sidebar [class*="peek"],
+.Root__right-sidebar [class*="overlayWrapper"] {
+  background: var(--w95-face) !important;
+  border-radius: 0 !important;
+}
+/* mesmo título e espaçamento da Biblioteca */
+.Root__nav-bar::before,
+.Root__right-sidebar::before {
+  padding-inline-start: 4px;
+  box-sizing: border-box;
+}
+
+/* ===== Correção: chip selecionado (Playlists, Tudo, Música...) virava tarja preta ===== */
+/* O Spotify usa duas famílias de chip: a nova (data-encore-id="chip") e a "legacy" (Biblioteca).
+   O selecionado recebe um "color set" invertido que pintava o fundo de preto. */
+[class*="legacy-chip"],
+[class*="legacy-chip__inner"],
+[data-encore-id="chip"],
+[data-encore-id="chip"] [class*="encore-"][class*="-set"],
+[class*="legacy-chip"] [class*="encore-"][class*="-set"] {
+  --background-base: #c0c0c0 !important;
+  --background-highlight: #dfdfdf !important;
+  --background-press: #c0c0c0 !important;
+  --background-tinted-base: #c0c0c0 !important;
+  --background-tinted-highlight: #dfdfdf !important;
+  --background-tinted-press: #c0c0c0 !important;
+  --text-base: #000 !important;
+  --text-subdued: #000 !important;
+  color: #000 !important;
+}
+button[class*="legacy-chip"] {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  margin-inline-start: 0 !important;   /* tira a sobreposição dos chips secundários */
+  margin-inline-end: 6px !important;
+}
+[class*="legacy-chip__inner"] {
+  background: var(--w95-face) !important;
+  box-shadow: var(--w95-raised) !important;
+  height: 23px !important;
+  min-block-size: 23px !important;
+  padding: 0 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 12px !important;
+  font-weight: normal !important;
+}
+[class*="legacy-chip__inner"] *,
+[class*="legacy-chip__inner"] svg { color: #000 !important; fill: #000 !important; }
+/* Selecionado = afundado com quadriculado, texto sempre preto */
+[class*="legacy-chip__inner--selected"],
+button[aria-checked="true"] > [class*="legacy-chip__inner"],
+[class*="chip--selected"],
+[data-encore-id="chip"][aria-checked="true"] {
+  background-color: #c0c0c0 !important;
+  background-image: repeating-conic-gradient(#c0c0c0 0 25%, #fff 0 50%) !important;
+  background-size: 2px 2px !important;
+  box-shadow: var(--w95-sunken) !important;
+  color: #000 !important;
+}
+[class*="legacy-chip__inner--selected"] *,
+[class*="chip--selected"] * { color: #000 !important; fill: #000 !important; }
+/* Botão "X" de limpar filtro */
+[class*="chip-clear"] {
+  background: var(--w95-face) !important;
+  box-shadow: var(--w95-raised) !important;
+  width: 23px !important; height: 23px !important;
+  padding: 0 !important;
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+}
+[class*="chip-clear"] svg { width: 10px !important; height: 10px !important; fill: #000 !important; }
+
+/* ===== Correção: ícone de play sumindo nos atalhos da Home ===== */
+/* O miolo do botão estava colapsando para 0px e o ícone (posicionado absoluto) sumia */
+[data-testid="play-button"] [class*="button-primary__inner"],
+[data-testid="play-button"] [class*="ButtonInner"],
+[data-testid="play-button"] > span {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+}
+[data-testid="play-button"] [class*="icon-wrapper"],
+[data-testid="play-button"] [class*="IconWrapper"] {
+  position: static !important;
+  display: flex !important;
+  inset: auto !important;
+}
+[data-testid="play-button"] svg {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  fill: #000 !important;
+}
+
+/* ===== Correção: degradês escuros no topo da Home / playlists ===== */
+:root, .Root, .Root__main-view { --background-noise: none !important; }
+/* faixas de degradê que o Spotify desenha atrás do cabeçalho (classes da versão atual) */
+.M7ECcaA17LC8UqL2GKVD,
+.Ycqn19PQZncajMn_Igur,
+.dqwQhIudKoD98eWJzj5E,
+.jCf8UWqylvHChuDjyOfg,
+.ELsCw_Koqs_Q2dLHtg7z,
+[data-testid="home-page"] > div[style*="background"]:first-child {
+  background: transparent !important;
+  background-image: none !important;
+}
+.main-entityHeader-backgroundColor,
+.main-entityHeader-backgroundColor[data-seamless-gradient],
+.main-entityHeader-overlay,
+.main-actionBarBackground-background {
+  background: var(--w95-face) !important;
+  background-image: none !important;
+  --color-from: transparent !important;
+  --color-to: transparent !important;
+}
+
+/* ===== Correção: barra de título "Spotify 95" desbotada nas playlists ===== */
+/* A barra superior do Spotify (com a cor da capa) ficava por cima do título */
+.main-topBar-background,
+.main-topBar-background::after,
+.main-topBar-overlay {
+  background: transparent !important;
+  background-color: transparent !important;
+  opacity: 0 !important;
+}
+.Root__main-view::before {
+  position: relative;
+  z-index: 1;
+  opacity: 1 !important;
+}
+
+/* ===== Correção: botão de play dos atalhos da Home (Rock Mix, Daily Mix...) ===== */
+/* Fica escondido e só aparece ao passar o mouse, como no Spotify original */
+.qqdeiPoFoM_sPX0pRHsT .gHRmnzWv7_EhCyjcB5fg { width: 44px !important; }
+.qqdeiPoFoM_sPX0pRHsT .gHRmnzWv7_EhCyjcB5fg,
+.qqdeiPoFoM_sPX0pRHsT .SydbRAmFUdPUwVFV47xp,
+.qqdeiPoFoM_sPX0pRHsT .EDAZ1BEWzfhU0hb12rze {
+  opacity: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  transition: none !important;
+}
+.qqdeiPoFoM_sPX0pRHsT:hover .gHRmnzWv7_EhCyjcB5fg,
+.qqdeiPoFoM_sPX0pRHsT:hover .SydbRAmFUdPUwVFV47xp,
+.qqdeiPoFoM_sPX0pRHsT:hover .EDAZ1BEWzfhU0hb12rze,
+.qqdeiPoFoM_sPX0pRHsT:focus-within .gHRmnzWv7_EhCyjcB5fg,
+.qqdeiPoFoM_sPX0pRHsT:focus-within .SydbRAmFUdPUwVFV47xp,
+.qqdeiPoFoM_sPX0pRHsT:focus-within .EDAZ1BEWzfhU0hb12rze {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.qqdeiPoFoM_sPX0pRHsT .gHRmnzWv7_EhCyjcB5fg button {
+  position: relative !important;
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 26px !important;
+  padding: 0 !important;
+  background: var(--w95-face) !important;
+  box-shadow: var(--w95-raised) !important;
+}
+/* Ícone desenhado em CSS: triângulo de play (não depende do SVG do Spotify) */
+.qqdeiPoFoM_sPX0pRHsT .gHRmnzWv7_EhCyjcB5fg button svg,
+.qqdeiPoFoM_sPX0pRHsT .gHRmnzWv7_EhCyjcB5fg button span { display: none !important; }
+.qqdeiPoFoM_sPX0pRHsT .gHRmnzWv7_EhCyjcB5fg button::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-35%, -50%);
+  width: 0; height: 0;
+  border-left: 9px solid #000;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  background: none !important;
+}
+/* Quando está tocando: duas barrinhas de pause */
+.qqdeiPoFoM_sPX0pRHsT .gHRmnzWv7_EhCyjcB5fg button[aria-label*="ause"]::after,
+.qqdeiPoFoM_sPX0pRHsT .gHRmnzWv7_EhCyjcB5fg button[aria-label*="ausa"]::after {
+  width: 3px; height: 11px;
+  border: none;
+  background: #000 !important;
+  box-shadow: 5px 0 0 #000;
+  transform: translate(-80%, -50%);
+}
+
+/* ===== Correção: filtros da Biblioteca com 2 selecionados (Playlists + By you) ===== */
+/* Um único relevo por botão (no botão externo); o miolo fica liso, sem borda dupla */
+[class*="legacy-chip"]:not([class*="__"]):not([class*="group"]) {
+  margin-inline-start: 0 !important;
+  margin-inline-end: 4px !important;
+  z-index: auto !important;
+  padding: 0 !important;
+  background: var(--w95-face) !important;
+  box-shadow: var(--w95-raised) !important;
+  min-height: 23px !important;
+  height: 23px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  overflow: visible !important;
+}
+[class*="legacy-chip"] [class*="legacy-chip__inner"],
+[class*="legacy-chip__inner"][class*="legacy-chip__inner--secondary"],
+[class*="legacy-chip__inner"][class*="legacy-chip__inner--selected"] {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  padding: 0 10px !important;
+  padding-inline-start: 10px !important;
+  height: 100% !important;
+  min-block-size: 0 !important;
+  border: none !important;
+  white-space: nowrap !important;
+}
+/* Selecionado = botão afundado, fundo cinza claro liso (texto legível) */
+[class*="legacy-chip"]:not([class*="__"]):has(> [class*="__inner--selected"]),
+[class*="legacy-chip"][aria-checked="true"]:not([class*="__"]) {
+  box-shadow: var(--w95-sunken) !important;
+  background: #dfdfdf !important;
+  background-image: none !important;
+}
+[class*="legacy-chip"]:not([class*="__"]):has(> [class*="__inner--selected"]) [class*="legacy-chip__inner"] {
+  padding: 1px 9px 0 11px !important;   /* texto "afunda" 1px */
+}
+/* Nunca deixa um chip esconder o outro */
+[class*="legacy-chip--secondary"] { margin-inline-start: 0 !important; }
+
+/* Espaço maior entre os filtros quando há seleção (ex.: Playlists + By you) */
+[class*="legacy-chip"]:not([class*="__"]):not([class*="group"]) { margin-inline-end: 8px !important; }
+[class*="legacy-chip--secondary"] { margin-inline-start: 0 !important; }
+/* O Spotify puxa o 2º filtro 48px para a esquerda pelo "embrulho" do chip (Biblioteca e Home).
+   Zera isso e dá 12px extras: 8px + 12px = 20px entre os dois selecionados */
+.xbVsK_4Tiynhx363LqAF,
+.YN3r8aFXfcoZFjDmj5Sf,
+.I7QPPyjfzVuHwQWwJkas,
+:has(> [class*="legacy-chip--secondary"]),
+:has(> [data-encore-id="chip"][class*="--secondary"]) {
+  margin-inline-start: 12px !important;
+  margin-left: 12px !important;
+  z-index: auto !important;
+}
+
+/* ===== Correção: degradê esverdeado no cabeçalho das playlists/álbuns ===== */
+/* O Spotify injeta a cor da capa como variável; aqui ela vira o cinza do tema */
+.Root__main-view,
+.Root__main-view [style*="--background"],
+.Root__main-view [style*="background-color"]:not(img):not([class*="image"]):not([class*="Image"]) {
+  --background-base: #c0c0c0 !important;
+  --background-base-min-contrast: #c0c0c0 !important;
+  --background-base-20: #c0c0c0 !important;
+  --background-highlight: #dfdfdf !important;
+  --background-noise: none !important;
+}
+.LoLj06QlFjobDdDDAb_3::before,
+.LoLj06QlFjobDdDDAb_3.wIVO952N_A2i7WaFCsAW::before,
+.main-entityHeader-backgroundColor::before,
+.main-entityHeader-backgroundColor::after {
+  background: none !important;
+  background-image: none !important;
+  display: none !important;
+}
+.main-entityHeader-container,
+.main-entityHeader-container > div:first-child {
+  background-color: var(--w95-face) !important;
+  background-image: none !important;
+}
+
+/* ===== Correção: degradê escuro atrás da barra de ações (play, shuffle, +, ...) ===== */
+[class*="actionBarBackground-background"],
+[class*="actionBarBackground-background"][data-seamless-gradient] {
+  background: transparent !important;
+  background-image: none !important;
+  --color-from: transparent !important;
+  --color-to: transparent !important;
+  --dither: none !important;
+  opacity: 0 !important;
+}
+.Root__main-view,
+.Root__main-view [style*="--background"] {
+  --background-base-70: #c0c0c0 !important;
+}
+
+/* ===== Correção: miniatura da capa ao lado do play (botão "explorar") saindo do lugar ===== */
+.main-actionBar-exploreButton {
+  position: relative !important;
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 40px !important;
+  padding: 3px !important;
+  display: inline-flex !important;
+  align-items: stretch !important;
+  justify-content: stretch !important;
+  overflow: hidden !important;
+}
+.main-actionBar-exploreButtonImageWrapper {
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  box-shadow: var(--w95-sunken) !important;
+}
+.main-actionBar-exploreButtonImageWrapper img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+.main-actionBar-exploreButtonPlayIconWrapper { background: var(--w95-face) !important; }
+/* Botão de play grande sem "zoom" ao passar o mouse */
+.main-actionBar-ActionBarPlayButtonContainer,
+.main-actionBar-ActionBarPlayButtonContainer:hover { transform: none !important; border-radius: 0 !important; }
+
+/* ===== Barra de ações padronizada: todos os botões com o mesmo tamanho ===== */
+:root { --w95-action-h: 28px; --w95-action-w: 36px; }
+
+.main-actionBar-ActionBarRow { gap: 6px !important; align-items: center !important; }
+.main-actionBar-ActionBarRow > * { margin: 0 !important; }
+
+/* Todo botão da barra: altura 28px; ícones ficam 36px de largura, textos crescem */
+.main-actionBar-ActionBarRow button,
+.main-actionBar-ActionBarRow [role="button"] {
+  width: auto !important;
+  min-width: var(--w95-action-w) !important;
+  height: var(--w95-action-h) !important;
+  min-height: var(--w95-action-h) !important;
+  padding: 0 10px !important;
+  gap: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--w95-face) !important;
+  box-shadow: var(--w95-raised) !important;
+  border: none !important;
+  transform: none !important;
+}
+.main-actionBar-ActionBarRow [data-testid="play-button"],
+.main-actionBar-ActionBarRow .main-actionBar-exploreButton {
+  width: var(--w95-action-w) !important;
+  padding: 0 !important;
+}
+.main-actionBar-ActionBarRow button:active,
+.main-actionBar-ActionBarRow [data-testid="play-button"]:active { box-shadow: var(--w95-sunken) !important; }
+.main-actionBar-ActionBarRow button svg { width: 14px !important; height: 14px !important; }
+
+/* Play: sem moldura dupla (o container não desenha nada) */
+.main-actionBar-ActionBarPlayButtonContainer {
+  aspect-ratio: auto !important;
+  width: auto !important;
+  height: auto !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+}
+.main-actionBar-ActionBarPlayButtonContainer [data-testid="play-button"] > span,
+.main-actionBar-ActionBarPlayButtonContainer [data-testid="play-button"] [class*="inner"] {
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Miniatura da capa: mesmo tamanho dos outros, imagem preenchendo */
+.main-actionBar-ActionBarRow .main-actionBar-exploreButton { padding: 3px !important; overflow: hidden !important; }
+.main-actionBar-ActionBarRow .main-actionBar-exploreButtonImageWrapper {
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+
+/* ===== Correção: lista suspensa da busca (Recent searches) ilegível e atrás da barra azul ===== */
+/* A barra de navegação do topo (onde fica a busca) fica acima das janelas */
+.Root__globalNav, .main-globalNav-searchSection, .main-globalNav-searchContainer {
+  position: relative;
+  z-index: 50 !important;
+}
+/* Estilo de caixa de lista do Win95: fundo branco, texto preto, borda em relevo */
+.main-globalNav-searchContainer [role="listbox"],
+.main-globalNav-searchContainer [role="dialog"],
+.main-globalNav-searchInputSection ~ div,
+.main-globalNav-searchInputContainer ~ div {
+  background: #ffffff !important;
+  color: #000 !important;
+  box-shadow: var(--w95-raised), 2px 2px 0 #000 !important;
+  border-radius: 0 !important;
+  z-index: 60 !important;
+}
+.main-globalNav-searchContainer [role="listbox"] *,
+.main-globalNav-searchContainer [role="dialog"] *,
+.main-globalNav-searchInputContainer ~ div * {
+  color: #000 !important;
+}
+/* Item sob o mouse / selecionado: azul-marinho com texto branco */
+.main-globalNav-searchContainer [role="option"]:hover,
+.main-globalNav-searchContainer [role="option"][aria-selected="true"],
+.main-globalNav-searchContainer [role="row"]:hover,
+.main-globalNav-searchContainer li:hover {
+  background: var(--w95-navy) !important;
+}
+.main-globalNav-searchContainer [role="option"]:hover *,
+.main-globalNav-searchContainer [role="option"][aria-selected="true"] *,
+.main-globalNav-searchContainer [role="row"]:hover *,
+.main-globalNav-searchContainer li:hover * {
+  color: #fff !important;
+  fill: #fff !important;
+}
+
+/* ===== Painel "Tocando agora": sem degradê escuro e título legível ===== */
+/* Remove as sombras escuras que o Spotify põe por cima da capa/canvas */
+.main-nowPlayingView-canvasVisualEnhancement::before,
+.main-nowPlayingView-canvasVisualEnhancement::after,
+.x5JBTTSUpJObvWy6eaTK.Xb7R370pCgtlIa7FdCEC .main-nowPlayingView-canvasVisualEnhancement::before {
+  display: none !important;
+  background: none !important;
+}
+/* Faixa do título/artista vira uma "barra de status" Win95 */
+:has(> .main-nowPlayingView-trackInfo) {
+  position: relative !important;
+  z-index: 2 !important;
+  background: var(--w95-face) !important;
+  box-shadow: var(--w95-raised) !important;
+  padding: 6px 8px !important;
+  margin-inline: 0 !important;
+}
+.main-nowPlayingView-trackInfo,
+.main-nowPlayingView-trackInfo * {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+.main-nowPlayingView-trackInfo a:hover { text-decoration: underline !important; }
+
+/* ===== Prévia da letra (Lyrics preview) no estilo Win95 ===== */
+.NowPlayingView,
+.NowPlayingView *,
+.Root__right-sidebar [style*="--lyrics-color"] {
+  --lyrics-color-background: #ffffff !important;
+  --lyrics-color-active: #000000 !important;
+  --lyrics-color-inactive: #808080 !important;
+  --lyrics-color-passed: #404040 !important;
+  --lyrics-color-messaging: #000000 !important;
+}
+.NowPlayingView [style*="--lyrics-color"],
+.NowPlayingView .main-nowPlayingView-section:has([data-testid="lyrics-container"]),
+.NowPlayingView .main-nowPlayingView-section:has(> [style*="lyrics"]) {
+  background: #ffffff !important;
+  box-shadow: var(--w95-sunken) !important;
+  border-radius: 0 !important;
+}
+
+/* ===== Painel "Tocando agora" v2: tudo liso, sem degradês nem máscaras ===== */
+.Root__right-sidebar *:not(img):not(video):not([style*="url("]),
+.Root__right-sidebar *::before,
+.Root__right-sidebar *::after {
+  background-image: none !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+/* pseudo-elementos que só existiam para escurecer: some */
+.Root__right-sidebar .NowPlayingView *::before,
+.Root__right-sidebar .NowPlayingView *::after { box-shadow: none !important; }
+.NowPlayingView,
+.main-nowPlayingView-section {
+  --section-background-base: var(--w95-face) !important;
+  background-color: var(--w95-face) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+/* Cabeçalho "Wisp Mix" sem a sombra embaixo */
+.main-nowPlayingView-headerContainer,
+.main-nowPlayingView-headerWrapper {
+  box-shadow: none !important;
+  background: var(--w95-face) !important;
+  border-bottom: 1px solid #808080 !important;
+}
+
+/* Caixa do título: relevo simples, sem nada escuro dentro */
+:has(> .main-nowPlayingView-trackInfo) {
+  background: var(--w95-face) !important;
+  background-image: none !important;
+}
+
+/* Lyrics preview: caixa branca afundada, texto 100% visível */
+[data-testid="lyrics-npv-section"],
+.zboE1ICtt8SJrJQEVHTf,
+.zboE1ICtt8SJrJQEVHTf.oCWFPidreAoLBDsNRQuw {
+  --lyrics-color-background: #ffffff !important;
+  --lyrics-color-active: #000000 !important;
+  --lyrics-color-inactive: #000000 !important;
+  --lyrics-color-passed: #404040 !important;
+  background: #ffffff !important;
+  box-shadow: var(--w95-sunken) !important;
+  border-radius: 0 !important;
+  padding: 10px 12px !important;
+}
+.zboE1ICtt8SJrJQEVHTf .Scoon9IllhaIXo9kFFiW {
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  font-size: 1.1rem !important;
+}
+[data-testid="lyrics-npv-section"] *,
+.zboE1ICtt8SJrJQEVHTf * { opacity: 1 !important; color: #000 !important; }
